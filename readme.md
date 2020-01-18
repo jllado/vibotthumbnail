@@ -2,6 +2,11 @@
 - gradlew build -x test
 - docker-compose up --build -d
 
+### Register
+- gradlew build -x test
+- docker-compose build
+- docker-compose push
+
 #### Use
 - Build image: 
 curl --header "Content-Type: application/json" --request POST --data '{"title": "any title","image": "https://images.pexels.com/photos/60597/dahlia-red-blossom-bloom-60597.jpeg"}' http://localhost:30001/thumbnail
