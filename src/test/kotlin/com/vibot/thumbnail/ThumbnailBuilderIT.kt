@@ -43,7 +43,7 @@ class ThumbnailBuilderIT {
 
     @After
     fun tearDown() {
-        //deleteAllFiles()
+        deleteAllFiles()
     }
 
     private fun deleteAllFiles() {
