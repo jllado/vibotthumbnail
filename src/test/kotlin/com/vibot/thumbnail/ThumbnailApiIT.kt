@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import org.hamcrest.CoreMatchers.`is`
 import org.hamcrest.CoreMatchers.notNullValue
+import org.hamcrest.MatcherAssert.assertThat
 import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -19,12 +20,13 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPat
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import org.springframework.util.FileSystemUtils
 import java.io.File
+import javax.imageio.ImageIO
 
 
 @RunWith(SpringRunner::class)
 @SpringBootTest
 @AutoConfigureMockMvc
-class ThumbnailIT {
+class ThumbnailApiIT {
 
     @Autowired
     private lateinit var mvc: MockMvc
@@ -39,6 +41,13 @@ class ThumbnailIT {
                 .andExpect(jsonPath("$.url", `is`(notNullValue()))).andReturn()
         val urlResponse = ObjectMapper().registerModule(KotlinModule()).readValue(urlResponseResult.response.contentAsString, ThumbnailResponse::class.java)
         mvc.perform(get(urlResponse.url).contentType(MediaType.APPLICATION_OCTET_STREAM)).andExpect(status().isOk)
+        assertImageSize()
+    }
+
+    private fun assertImageSize() {
+        val thumbnail = ImageIO.read(File(thumbnailFile))
+        assertThat(thumbnail.width, `is`(740))
+        assertThat(thumbnail.height, `is`(386))
     }
 
     @After

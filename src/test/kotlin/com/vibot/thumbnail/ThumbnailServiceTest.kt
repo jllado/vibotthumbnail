@@ -30,7 +30,7 @@ class ThumbnailServiceTest {
     }
 
     @Test
-    fun `should build thumbnail wihtml html generated`() {
+    fun `should build thumbnail with html generated`() {
         val request = ThumbnailRequest("any title", "http://anyimage.com")
         val html = "any html"
         doReturn(html).`when`(htmlBuilder).build(request)
