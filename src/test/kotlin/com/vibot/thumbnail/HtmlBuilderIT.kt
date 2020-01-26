@@ -24,7 +24,7 @@ class HtmlBuilderIT {
     private lateinit var builder: HtmlBuilder
 
     @Test
-    fun `given title and image url should return thumbnail html`() {
+    fun `given title and image url should return utf-8 740x360 thumbnail html`() {
         val title = "Sabotajes, explosivos y el asalto al Parlament: los planes de los CDR que investiga el juez"
         val image = "http://newnation.sg/wp-content/uploads/random-pic-internet-22.jpg"
 
@@ -32,5 +32,8 @@ class HtmlBuilderIT {
 
         assertThat(html, containsString(title))
         assertThat(html, containsString(image))
+        assertThat(html, containsString("width: 740px;"))
+        assertThat(html, containsString("height: 386px;"))
+        assertThat(html, containsString("<meta charset=\"UTF-8\" />"))
     }
 }
