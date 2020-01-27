@@ -16,7 +16,7 @@ class HtmlBuilder @Autowired constructor(
 
     fun build(request: ThumbnailRequest): String {
         val context = Context()
-        context.setVariable("title", request.title)
+        context.setVariable("text", request.text)
         context.setVariable("thumbnail", request.image)
         context.setVariable("trendingNewsImage", Base64.getEncoder().encodeToString(HtmlBuilder::class.java.getResourceAsStream("/static/trending_news_mark.png").readAllBytes()))
         return templateEngine.process("thumbnail", context)

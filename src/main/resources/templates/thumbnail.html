@@ -25,7 +25,7 @@
             max-height: 100%;
         }
 
-        .title {
+        .text {
             position: absolute;
             font-size: 50px;
             margin-top: 10px;
@@ -52,7 +52,7 @@
         <img th:src="${thumbnail}" src="3-image.jpg" class="thumbnail" />
     </div>
     <div >
-        <h1 class="title" th:text="${title}">Sabotajes, explosivos y el asalto al Parlament: los planes de los CDR que investiga el juez</h1>
+        <h1 class="text" th:text="${text}">Sabotajes, explosivos y el asalto al Parlament: los planes de los CDR que investiga el juez</h1>
         <img th:src="'data:image/jpeg;base64,'+${trendingNewsImage}" src="../static/trending_news_mark.png" class="logo" />
     </div>
 </body>
