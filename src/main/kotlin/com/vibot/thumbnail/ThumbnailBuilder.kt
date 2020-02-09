@@ -20,6 +20,6 @@ class ThumbnailBuilder @Autowired constructor(
 
     //wkhtmltoimage --width 640 file:///home/jllado/pruebas/slide.html html.png
     private fun buildThumbnail(url: String) {
-        val result = commandRunner.run(File("."), "wkhtmltoimage", "--width", "740", url, thumbnailFile)
+        commandRunner.run(File("."), "wkhtmltoimage", "--width", "740", url, thumbnailFile)
     }
 }
