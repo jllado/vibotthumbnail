@@ -1,9 +1,11 @@
-FROM adoptopenjdk/openjdk12:x86_64-ubuntu-jre-12.0.2_10
+FROM adoptopenjdk/openjdk12:x86_64-ubuntu-jdk-12.0.2_10-slim
 LABEL maintainer="jllado@gmail.com"
 RUN apt update
 RUN apt install -y xfonts-75dpi wget wkhtmltopdf
 RUN wget https://downloads.wkhtmltopdf.org/0.12/0.12.5/wkhtmltox_0.12.5-1.bionic_amd64.deb
 RUN dpkg -i wkhtmltox_0.12.5-1.bionic_amd64.deb
-EXPOSE 8080
-ADD build/libs/vibotthumbnail-0.0.1-SNAPSHOT.jar vibotthumbnail.jar
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","/vibotthumbnail.jar"]
+RUN mkdir /app
+VOLUME /app
+VOLUME /root/.gradle
+WORKDIR /app
+ENTRYPOINT ["./gradlew", "build", "--no-daemon", "-DupdateTestTimestamps=true"]

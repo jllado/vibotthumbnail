@@ -1,0 +1,13 @@
+version: '3'
+services:
+  vibot-thumbnail-build:
+    container_name: vibot-thumbnail-build
+    volumes:
+      - ${APP_PATH:-./}:/app
+      - vibot-thumbnail-build_gradle_dist:/root/.gradle
+    build:
+      context: .
+      dockerfile: Dockerfile-build
+volumes:
+  vibot-thumbnail-build_gradle_dist:
+    driver: local
