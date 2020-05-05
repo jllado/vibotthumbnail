@@ -1,9 +1,8 @@
 version: '3'
 services:
   vibot-thumbnail:
-    image: jllado-server:5000/vibot/vibot-thumbnail:latest
+    image: jllado-server:5000/vibot/vibot-thumbnail:${DEPLOY_VERSION:-latest}
     container_name: vibot-thumbnail
     build: .
     ports:
       - "30001:8080"
-    restart: always

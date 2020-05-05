@@ -1,0 +1,40 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: vibot-thumbnail
+spec:
+  selector:
+    app: vibot-thumbnail
+  ports:
+    - port: 30001
+      targetPort: 8080
+  type: LoadBalancer
+  sessionAffinity: None
+  externalTrafficPolicy: Cluster
+status:
+  loadBalancer: {}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vibot-thumbnail
+spec:
+  selector:
+    matchLabels:
+      app: vibot-thumbnail
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        app: vibot-thumbnail
+    spec:
+      containers:
+        - name: vibot-thumbnail
+          image: jllado-server:5000/vibot/vibot-thumbnail:latest
+          imagePullPolicy: Always
+

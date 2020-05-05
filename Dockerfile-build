@@ -1,5 +1,6 @@
 FROM adoptopenjdk/openjdk12:x86_64-ubuntu-jdk-12.0.2_10-slim
 LABEL maintainer="jllado@gmail.com"
+RUN useradd -ms /bin/bash jenkins
 RUN apt update
 RUN apt install -y xfonts-75dpi wget wkhtmltopdf
 RUN wget https://downloads.wkhtmltopdf.org/0.12/0.12.5/wkhtmltox_0.12.5-1.bionic_amd64.deb
@@ -7,5 +8,6 @@ RUN dpkg -i wkhtmltox_0.12.5-1.bionic_amd64.deb
 RUN mkdir /app
 VOLUME /app
 VOLUME /root/.gradle
+USER jenkins
 WORKDIR /app
 ENTRYPOINT ["./gradlew", "build", "--no-daemon", "-DupdateTestTimestamps=true"]
