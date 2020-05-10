@@ -26,13 +26,16 @@
         }
 
         .text {
-            position: absolute;
             font-size: 50px;
             margin-top: 10px;
             margin-left: 30px;
             margin-right: 30px;
             color: white;
             text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+        }
+
+        .center {
+            text-align: center;
         }
 
         .logo {
@@ -51,7 +54,7 @@
     <div>
         <img th:src="${thumbnail}" src="3-image.jpg" class="thumbnail" />
     </div>
-    <div >
+    <div class="center" >
         <h1 class="text" th:text="${text}">Sabotajes, explosivos y el asalto al Parlament: los planes de los CDR que investiga el juez</h1>
         <img th:src="'data:image/jpeg;base64,'+${trendingNewsImage}" src="../static/trending_news_mark.png" class="logo" />
     </div>
