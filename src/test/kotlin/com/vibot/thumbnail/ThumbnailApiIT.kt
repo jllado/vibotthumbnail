@@ -33,7 +33,7 @@ class ThumbnailApiIT {
 
     @Test
     fun `given title and image url should return thumbnail image`() {
-        val title = "Barça, Sabotajes, explosivos y el asalto al Parlament: los planes de los CDR"
+        val title = "CORONAVIRUS"
         val image = "http://newnation.sg/wp-content/uploads/random-pic-internet-22.jpg"
         val post = "{\"text\": \"$title\",\"image\": \"$image\"}"
         val urlResponseResult = mvc.perform(post("/thumbnail").contentType(MediaType.APPLICATION_JSON_UTF8).content(post))

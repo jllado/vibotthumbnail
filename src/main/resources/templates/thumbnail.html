@@ -3,6 +3,7 @@
 <meta charset="UTF-8" />
 <head>
     <style type="text/css">
+        @import url(https://fonts.googleapis.com/css?family=Righteous);
         body {
             background-color: #000000;
             margin: 0px;
@@ -26,14 +27,60 @@
         }
 
         .text {
-            font-size: 50px;
-            margin-top: 10px;
+            -webkit-text-fill-color: transparent;
+            -webkit-text-stroke: 0.1px #f1f1f1;
+            font-family: 'Righteous', cursive;
+            font-size: 60px;
+            margin-top: 65px;
             margin-left: 30px;
             margin-right: 30px;
-            color: white;
-            text-shadow: -2px -2px 0 #000, 2px -2px 0 #000, -2px 2px 0 #000, 2px 2px 0 #000;
+        }
+        .text:after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            /*-webkit-animation:text_effect 0.067s infinite;*/
+            background: repeating-linear-gradient(0deg, rgba(255,255,255,0.05) 0px, rgba(255,255,255,0.05) 1px, rgba(255,255,255,0) 1px, rgba(255,255,255,0) 2px);
         }
 
+        .text-body {
+            -webkit-background-clip: text;
+            background-image: -webkit-linear-gradient(#C3BFB4 0%, #FDFCFA 50%, #E8E7E5 51%, #757172 52%, #E8E9DB 100%);
+            -webkit-filter: drop-shadow(2px 2px 15px #3F59F4);
+        }
+
+        .text-red {
+            color: #F10C20;
+            -webkit-text-fill-color: #F10C20;
+            -webkit-text-stroke: 0;
+            -webkit-filter: drop-shadow(2px 2px 15px #F10C20);
+            font-style: italic;
+            padding-right: 20px;
+        }
+
+        .text-green {
+            color: #6BFF2B;
+            -webkit-text-fill-color: #6BFF2B;
+            -webkit-filter: drop-shadow(2px 2px 15px #6BFF2B);
+            -webkit-text-stroke: 0;
+            font-style: italic;
+            padding-right: 20px;
+            margin-left: -20px;
+        }
+
+        .text-blue {
+            color: #3F59F4;
+            -webkit-text-fill-color: #3F59F4;
+            -webkit-filter: drop-shadow(2px 2px 15px #3F59F4);
+            -webkit-text-stroke: 0;
+            font-style: italic;
+            padding-right: 20px;
+            margin-left: -20px;
+        }
+        
         .center {
             text-align: center;
         }
@@ -55,7 +102,7 @@
         <img th:src="${thumbnail}" src="3-image.jpg" class="thumbnail" />
     </div>
     <div class="center" >
-        <h1 class="text" th:text="${text}">Sabotajes, explosivos y el asalto al Parlament: los planes de los CDR que investiga el juez</h1>
+        <h1 class="text" ><span class="text-body" th:text="${text}">CORONAVIRUS</span><span class="text-red">I</span><span class="text-green">I</span><span class="text-blue">I</span></h1>
         <img th:src="'data:image/jpeg;base64,'+${trendingNewsImage}" src="../static/trending_news_mark.png" class="logo" />
     </div>
 </body>
