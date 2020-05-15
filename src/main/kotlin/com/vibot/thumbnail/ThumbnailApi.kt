@@ -6,6 +6,7 @@ import org.springframework.core.io.Resource
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -22,10 +23,9 @@ class ThumbnailApi @Autowired constructor(
         return service.buildThumbnail(request)
     }
 
-    @GetMapping(value = [thumbnailFile], produces = [MediaType.APPLICATION_OCTET_STREAM_VALUE])
-    fun getThumbnail(): ResponseEntity<Resource> {
-        val file = File(thumbnailFile)
-        val resource = InputStreamResource(FileInputStream(file))
+    @GetMapping(value = ["/thumbnail/{id}"], produces = [MediaType.APPLICATION_OCTET_STREAM_VALUE])
+    fun getThumbnail(@PathVariable("id") id: String): ResponseEntity<Resource> {
+        val resource = InputStreamResource(FileInputStream(File("$id.png")))
         return ResponseEntity.ok().body(resource)
     }
 }

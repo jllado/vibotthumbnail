@@ -10,14 +10,15 @@ import java.io.File
 
 class ThumbnailBuilderIT {
 
-    private val thumbnail = File(thumbnailFile)
+    private val thumbnailId = "any123"
+    private val thumbnail = File("$thumbnailId.png")
     private val html = File(htmlFile)
 
     private val builder = ThumbnailBuilder(CommandRunner())
 
     @Test
     fun `should build video`() {
-        builder.build(html())
+        builder.build(html(), thumbnailId)
 
         assertThat(thumbnail.exists(),`is`(true))
         assertThat(thumbnail.length(), `is`(greaterThan(0L)))

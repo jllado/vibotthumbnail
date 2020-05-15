@@ -22,7 +22,6 @@ import org.springframework.util.FileSystemUtils
 import java.io.File
 import javax.imageio.ImageIO
 
-
 @RunWith(SpringRunner::class)
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -40,23 +39,20 @@ class ThumbnailApiIT {
                 .andExpect(status().isOk)
                 .andExpect(jsonPath("$.url", `is`(notNullValue()))).andReturn()
         val urlResponse = ObjectMapper().registerModule(KotlinModule()).readValue(urlResponseResult.response.contentAsString, ThumbnailResponse::class.java)
-        mvc.perform(get(urlResponse.url).contentType(MediaType.APPLICATION_OCTET_STREAM)).andExpect(status().isOk)
-        assertImageSize()
+        mvc.perform(get("${urlResponse.url}").contentType(MediaType.APPLICATION_OCTET_STREAM)).andExpect(status().isOk)
+        assertImageSize(urlResponse.url)
     }
 
-    private fun assertImageSize() {
-        val thumbnail = ImageIO.read(File(thumbnailFile))
+    private fun assertImageSize(url: String) {
+        val thumbnailFIle = "${url.split("/").last()}.png"
+        val thumbnail = ImageIO.read(File(thumbnailFIle))
         assertThat(thumbnail.width, `is`(740))
         assertThat(thumbnail.height, `is`(386))
+        FileSystemUtils.deleteRecursively(File(thumbnailFIle))
     }
 
     @After
     fun tearDown() {
-        deleteAllFiles()
-    }
-
-    private fun deleteAllFiles() {
-        FileSystemUtils.deleteRecursively(File(thumbnailFile))
         FileSystemUtils.deleteRecursively(File(htmlFile))
     }
 }

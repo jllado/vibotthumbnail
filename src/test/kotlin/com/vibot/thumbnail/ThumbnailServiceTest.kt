@@ -14,8 +14,9 @@ import org.mockito.junit.MockitoJUnitRunner
 class ThumbnailServiceTest {
 
     @Mock
+    private lateinit var idBuilder: IdBuilder
+    @Mock
     private lateinit var thumbnailBuilder: ThumbnailBuilder
-
     @Mock
     private lateinit var htmlBuilder: HtmlBuilder
 
@@ -24,19 +25,24 @@ class ThumbnailServiceTest {
 
     @Test
     fun `should return thumbnail url`() {
+        val id = "anyid"
+        doReturn(id).`when`(idBuilder).build()
+
         val request = ThumbnailRequest("any title", "http://anyimage.com")
 
-        assertThat(service.buildThumbnail(request).url, `is`("/thumbnail.png"))
+        assertThat(service.buildThumbnail(request).url, `is`("/thumbnail/$id"))
     }
 
     @Test
     fun `should build thumbnail with html generated`() {
+        val id = "anyid"
+        doReturn(id).`when`(idBuilder).build()
         val request = ThumbnailRequest("any title", "http://anyimage.com")
         val html = "any html"
         doReturn(html).`when`(htmlBuilder).build(request)
 
         service.buildThumbnail(request)
 
-        verify(thumbnailBuilder).build(html)
+        verify(thumbnailBuilder).build(html, id)
     }
 }
