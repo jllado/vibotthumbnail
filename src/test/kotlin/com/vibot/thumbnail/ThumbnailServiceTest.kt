@@ -16,7 +16,7 @@ class ThumbnailServiceTest {
     @Mock
     private lateinit var idBuilder: IdBuilder
     @Mock
-    private lateinit var thumbnailBuilder: ThumbnailBuilder
+    private lateinit var imageBuilder: ImageBuilder
     @Mock
     private lateinit var htmlBuilder: HtmlBuilder
 
@@ -24,11 +24,11 @@ class ThumbnailServiceTest {
     private lateinit var service: ThumbnailService
 
     @Test
-    fun `should return thumbnail url`() {
+    fun `should return video thumbnail url`() {
         val id = "anyid"
         doReturn(id).`when`(idBuilder).build()
 
-        val request = ThumbnailRequest("any title", "http://anyimage.com")
+        val request = ThumbnailRequest("http://anyimage.com", "any title")
 
         assertThat(service.buildThumbnail(request).url, `is`("/thumbnail/$id"))
     }
@@ -37,12 +37,35 @@ class ThumbnailServiceTest {
     fun `should build thumbnail with html generated`() {
         val id = "anyid"
         doReturn(id).`when`(idBuilder).build()
-        val request = ThumbnailRequest("any title", "http://anyimage.com")
+        val request = ThumbnailRequest("http://anyimage.com", "any title")
         val html = "any html"
-        doReturn(html).`when`(htmlBuilder).build(request)
+        doReturn(html).`when`(htmlBuilder).buildThumbnail(request)
 
         service.buildThumbnail(request)
 
-        verify(thumbnailBuilder).build(html, id)
+        verify(imageBuilder).build(html, id)
+    }
+
+    @Test
+    fun `given only image should return video image url`() {
+        val id = "anyid"
+        doReturn(id).`when`(idBuilder).build()
+
+        val request = ThumbnailRequest("http://anyimage.com")
+
+        assertThat(service.buildImage(request).url, `is`("/image/$id"))
+    }
+
+    @Test
+    fun `given only image should build image with html generated`() {
+        val id = "anyid"
+        doReturn(id).`when`(idBuilder).build()
+        val request = ThumbnailRequest("http://anyimage.com")
+        val html = "any html"
+        doReturn(html).`when`(htmlBuilder).buildImage(request)
+
+        service.buildImage(request)
+
+        verify(imageBuilder).build(html, id)
     }
 }

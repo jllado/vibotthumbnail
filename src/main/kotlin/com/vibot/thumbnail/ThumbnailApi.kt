@@ -23,7 +23,12 @@ class ThumbnailApi @Autowired constructor(
         return service.buildThumbnail(request)
     }
 
-    @GetMapping(value = ["/thumbnail/{id}"], produces = [MediaType.APPLICATION_OCTET_STREAM_VALUE])
+    @PostMapping("/image")
+    fun buildImage(@RequestBody request: ThumbnailRequest): ThumbnailResponse {
+        return service.buildImage(request)
+    }
+
+    @GetMapping(value = ["/*/{id}"], produces = [MediaType.APPLICATION_OCTET_STREAM_VALUE])
     fun getThumbnail(@PathVariable("id") id: String): ResponseEntity<Resource> {
         val resource = InputStreamResource(FileInputStream(File("$id.png")))
         return ResponseEntity.ok().body(resource)

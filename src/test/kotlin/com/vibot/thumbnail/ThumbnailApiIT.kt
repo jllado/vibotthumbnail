@@ -31,7 +31,7 @@ class ThumbnailApiIT {
     private lateinit var mvc: MockMvc
 
     @Test
-    fun `given title and image url should return thumbnail image`() {
+    fun `given title and image url should return video thumbnail image`() {
         val title = "CORONAVIRUS"
         val image = "http://newnation.sg/wp-content/uploads/random-pic-internet-22.jpg"
         val post = "{\"text\": \"$title\",\"image\": \"$image\"}"
@@ -43,16 +43,25 @@ class ThumbnailApiIT {
         assertImageSize(urlResponse.url)
     }
 
-    private fun assertImageSize(url: String) {
-        val thumbnailFIle = "${url.split("/").last()}.png"
-        val thumbnail = ImageIO.read(File(thumbnailFIle))
-        assertThat(thumbnail.width, `is`(740))
-        assertThat(thumbnail.height, `is`(386))
-        FileSystemUtils.deleteRecursively(File(thumbnailFIle))
+    @Test
+    fun `given image url should return video image`() {
+        val image = "http://newnation.sg/wp-content/uploads/random-pic-internet-22.jpg"
+        val post = "{\"image\": \"$image\"}"
+        val urlResponseResult = mvc.perform(post("/image").contentType(MediaType.APPLICATION_JSON_UTF8).content(post))
+                .andExpect(status().isOk)
+                .andExpect(jsonPath("$.url", `is`(notNullValue()))).andReturn()
+        val urlResponse = ObjectMapper().registerModule(KotlinModule()).readValue(urlResponseResult.response.contentAsString, ThumbnailResponse::class.java)
+        mvc.perform(get("${urlResponse.url}").contentType(MediaType.APPLICATION_OCTET_STREAM)).andExpect(status().isOk)
+        assertImageSize(urlResponse.url)
     }
 
-    @After
-    fun tearDown() {
-        FileSystemUtils.deleteRecursively(File(htmlFile))
+    private fun assertImageSize(url: String) {
+        val imageId = url.split("/").last()
+        val imageFile = "$imageId.png"
+        val image = ImageIO.read(File(imageFile))
+        assertThat(image.width, `is`(740))
+        assertThat(image.height, `is`(386))
+        FileSystemUtils.deleteRecursively(File(imageFile))
+        FileSystemUtils.deleteRecursively(File("$imageId.html"))
     }
 }

@@ -7,17 +7,24 @@ import org.springframework.stereotype.Service
 @Service
 class ThumbnailService @Autowired constructor(
         private val idBuilder: IdBuilder,
-        private val thumbnailBuilder: ThumbnailBuilder,
+        private val imageBuilder: ImageBuilder,
         private val htmlBuilder: HtmlBuilder
 ) {
 
     fun buildThumbnail(request: ThumbnailRequest): ThumbnailResponse {
+        return buildImage("/thumbnail/", htmlBuilder.buildThumbnail(request))
+    }
+
+    fun buildImage(request: ThumbnailRequest): ThumbnailResponse {
+        return buildImage("/image/", htmlBuilder.buildImage(request))
+    }
+
+    private fun buildImage(path: String, html: String): ThumbnailResponse {
         val id = idBuilder.build()
-        thumbnailBuilder.build(htmlBuilder.build(request), id)
-        return ThumbnailResponse("/thumbnail/$id")
+        imageBuilder.build(html, id)
+        return ThumbnailResponse("$path$id")
     }
 }
-
 
 @Service
 class IdBuilder {

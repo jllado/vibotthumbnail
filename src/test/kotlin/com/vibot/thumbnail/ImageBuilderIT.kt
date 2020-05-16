@@ -8,20 +8,18 @@ import org.junit.Test
 import org.springframework.util.FileSystemUtils
 import java.io.File
 
-class ThumbnailBuilderIT {
+class ImageBuilderIT {
 
     private val thumbnailId = "any123"
-    private val thumbnail = File("$thumbnailId.png")
-    private val html = File(htmlFile)
 
-    private val builder = ThumbnailBuilder(CommandRunner())
+    private val builder = ImageBuilder(CommandRunner())
 
     @Test
     fun `should build video`() {
         builder.build(html(), thumbnailId)
 
-        assertThat(thumbnail.exists(),`is`(true))
-        assertThat(thumbnail.length(), `is`(greaterThan(0L)))
+        assertThat(File("$thumbnailId.png").exists(),`is`(true))
+        assertThat(File("$thumbnailId.png").length(), `is`(greaterThan(0L)))
     }
 
     private fun html(): String {
@@ -48,7 +46,7 @@ class ThumbnailBuilderIT {
     }
 
     private fun deleteAllFiles() {
-        FileSystemUtils.deleteRecursively(thumbnail)
-        FileSystemUtils.deleteRecursively(html)
+        FileSystemUtils.deleteRecursively(File("$thumbnailId.png"))
+        FileSystemUtils.deleteRecursively(File("$thumbnailId.html"))
     }
 }
