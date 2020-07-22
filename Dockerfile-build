@@ -3,8 +3,8 @@ LABEL maintainer="jllado@gmail.com"
 RUN useradd -ms /bin/bash jenkins
 RUN apt update
 RUN apt install -y xfonts-75dpi wget wkhtmltopdf
-RUN wget https://downloads.wkhtmltopdf.org/0.12/0.12.5/wkhtmltox_0.12.5-1.bionic_amd64.deb
-RUN dpkg -i wkhtmltox_0.12.5-1.bionic_amd64.deb
+RUN wget https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.bionic_amd64.deb
+RUN dpkg -i wkhtmltox_0.12.6-1.bionic_amd64.deb
 RUN mkdir /app
 VOLUME /app
 VOLUME /root/.gradle
